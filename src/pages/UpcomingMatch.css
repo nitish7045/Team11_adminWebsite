@@ -1,0 +1,111 @@
+/* General Styles */
+.upcoming-match-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Dropdown Styles */
+  .sport-select {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .sport-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* Table Styles */
+  .match-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .match-table th,
+  .match-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .match-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .match-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .match-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Input Styles */
+  .match-table input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .match-table input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  }
+  
+  /* Button Styles */
+  .match-table button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .match-table button.modify-button {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .match-table button.modify-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .match-table button.save-button {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .match-table button.save-button:hover {
+    background-color: #218838;
+  }
+  
+  .match-table button.delete-button {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .match-table button.delete-button:hover {
+    background-color: #c82333;
+  }

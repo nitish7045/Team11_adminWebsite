@@ -1,0 +1,82 @@
+/* PlayerPoints.css */
+
+.player-points-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .player-points-container h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .player-points-container select,
+  .player-points-container input {
+    padding: 8px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .player-points-container button {
+    /* padding-top: 10; */
+    margin-top: 12px;
+    padding: 8px 12px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .player-points-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .match-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+  }
+  
+  .match-card strong {
+    color: #555;
+  }
+  
+  .players-list {
+    margin-top: 10px;
+  }
+  
+  .players-list h4 {
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .players-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .players-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .players-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .no-matches {
+    color: #777;
+    font-style: italic;
+  }
+  
+  .loading {
+    color: #777;
+    font-style: italic;
+  }
