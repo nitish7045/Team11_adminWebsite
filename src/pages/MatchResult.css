@@ -54,7 +54,7 @@
     background-color: #007bff;
   }
   
-  /* Modal Styles (scoped) */
+  /* Modal Styles (scoped)
   .match-results-container .modal-overlay {
     position: fixed;
     top: 0;
@@ -141,6 +141,16 @@
   }
   .modal-header h3{
     color: white;
+  } */
+
+  .match-results-container .clickable {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .match-results-container .clickable:hover {
+    color: #007bff;
   }
   /* Responsive Design */
   @media (max-width: 768px) {
