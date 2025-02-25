@@ -17,8 +17,12 @@ const Transactions = () => {
         const response = await axios.get(
           "https://fantacy-app-backend.onrender.com/auth/admin/transaction"
         );
-        setTransactions(response.data);
-        setFilteredTransactions(response.data);
+        // Sort transactions by latest transaction date first
+        const sortedTransactions = response.data.sort(
+          (a, b) => new Date(b.transactionDate) - new Date(a.transactionDate)
+        );
+        setTransactions(sortedTransactions);
+        setFilteredTransactions(sortedTransactions);
       } catch (error) {
         setError("Failed to fetch transactions");
       } finally {
@@ -60,6 +64,20 @@ const Transactions = () => {
     setFilteredTransactions(filteredData);
   }, [searchQuery, filterStatus, filterType, transactions]);
 
+  // Function to apply color styling based on status
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "complete":
+        return "status-complete"; // Green
+      case "failed":
+        return "status-failed"; // Red
+      case "processing":
+        return "status-processing"; // Orange
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="transactions-container">
       <h1>Transactions</h1>
@@ -77,7 +95,7 @@ const Transactions = () => {
         <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="filter-select">
           <option value="">All Status</option>
           <option value="complete">Complete</option>
-          <option value="pending">Pending</option>
+          <option value="processing">Processing</option>
           <option value="failed">Failed</option>
         </select>
 
@@ -104,6 +122,7 @@ const Transactions = () => {
               <th>Amount</th>
               <th>Transaction Type</th>
               <th>Status</th>
+              <th>Failure Reason</th>
               <th>Transaction Date</th>
             </tr>
           </thead>
@@ -116,13 +135,18 @@ const Transactions = () => {
                   <td>{transaction.walletId}</td>
                   <td>₹ {transaction.amount}</td>
                   <td>{transaction.transactionType}</td>
-                  <td>{transaction.status}</td>
+                  <td className={`status-cell ${getStatusClass(transaction.status)}`}>
+                    {transaction.status}
+                  </td>
+                  <td className="center-text">
+                    {transaction.status === "failed" ? transaction.failureReason || "-" : "-"}
+                  </td>
                   <td>{new Date(transaction.transactionDate).toLocaleString()}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="no-results">No transactions found</td>
+                <td colSpan="8" className="no-results">No transactions found</td>
               </tr>
             )}
           </tbody>

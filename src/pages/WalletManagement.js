@@ -11,28 +11,63 @@ const WalletManagement = () => {
   const [filterStatus, setFilterStatus] = useState("");
 
   useEffect(() => {
-    const fetchWallets = async () => {
-      try {
-        const response = await axios.get(
-          "https://fantacy-app-backend.onrender.com/auth/admin/wallet"
-        );
-        setWallets(response.data);
-        setFilteredWallets(response.data);
-      } catch (error) {
-        setError("Failed to fetch wallets");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchWallets();
   }, []);
+
+  const fetchWallets = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        "https://fantacy-app-backend.onrender.com/auth/admin/wallet"
+      );
+      const sortedWallets = response.data.sort((a, b) => b.walletId - a.walletId); // Sort by Wallet ID (Descending)
+      setWallets(sortedWallets);
+      setFilteredWallets(sortedWallets);
+      setError(null);
+    } catch (error) {
+      setError("Failed to fetch wallets");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle Block/Unblock Action
+  const handleBlockUnblock = async (walletId, isBlocked) => {
+    const url = `https://fantacy-app-backend.onrender.com/auth/wallet/${isBlocked ? "unblock" : "block"}/${walletId}`;
+  
+    try {
+      const response = await axios.put(url, {}, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (response.status === 200) {
+        // Update wallet state locally instead of fetching again
+        setWallets((prevWallets) =>
+          prevWallets.map((wallet) =>
+            wallet.walletId === walletId ? { ...wallet, isBlocked: !isBlocked } : wallet
+          )
+        );
+
+        setFilteredWallets((prevWallets) =>
+          prevWallets.map((wallet) =>
+            wallet.walletId === walletId ? { ...wallet, isBlocked: !isBlocked } : wallet
+          )
+        );
+      } else {
+        throw new Error("Failed to update wallet status.");
+      }
+    } catch (error) {
+      console.error("Error updating wallet status:", error.response?.data || error.message);
+      alert("Failed to update wallet status.");
+    }
+  };
 
   // Search and Filter Function
   useEffect(() => {
     let filteredData = wallets;
 
-    // Search by Wallet ID or User ID
     if (searchQuery) {
       filteredData = filteredData.filter(
         (wallet) =>
@@ -41,7 +76,6 @@ const WalletManagement = () => {
       );
     }
 
-    // Filter by Blocked Status
     if (filterStatus !== "") {
       const isBlocked = filterStatus === "blocked";
       filteredData = filteredData.filter((wallet) => wallet.isBlocked === isBlocked);
@@ -83,26 +117,37 @@ const WalletManagement = () => {
               <th>Wallet ID</th>
               <th>User ID</th>
               <th>Balance</th>
-              <th>Blocked</th>
+              <th>Status</th>
               <th>Created At</th>
               <th>Updated At</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredWallets.length > 0 ? (
               filteredWallets.map((wallet) => (
-                <tr key={wallet.id}>
+                <tr key={wallet.walletId}>
                   <td>{wallet.walletId}</td>
                   <td>{wallet.userId}</td>
                   <td>₹ {wallet.balance}</td>
-                  <td>{wallet.isBlocked ? "Yes" : "No"}</td>
+                  <td className={wallet.isBlocked ? "blocked" : "unblocked"}>
+                    {wallet.isBlocked ? "Blocked" : "Active"}
+                  </td>
                   <td>{new Date(wallet.createdAt).toLocaleString()}</td>
                   <td>{new Date(wallet.updatedAt).toLocaleString()}</td>
+                  <td>
+                    <button
+                      className={wallet.isBlocked ? "unblock-btn" : "block-btn"}
+                      onClick={() => handleBlockUnblock(wallet.walletId, wallet.isBlocked)}
+                    >
+                      {wallet.isBlocked ? "Unblock" : "Block"}
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="no-results">No wallets found</td>
+                <td colSpan="7" className="no-results">No wallets found</td>
               </tr>
             )}
           </tbody>

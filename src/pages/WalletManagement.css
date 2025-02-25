@@ -100,3 +100,31 @@
     color: #666;
     padding: 20px;
   }
+  .blocked {
+    color: red;
+    font-weight: bold;
+  }
+  .unblocked {
+    color: green;
+    font-weight: bold;
+  }
+  .block-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .unblock-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .block-btn:hover, .unblock-btn:hover {
+    opacity: 0.8;
+  }
+  

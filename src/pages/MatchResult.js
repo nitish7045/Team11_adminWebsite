@@ -24,12 +24,19 @@ const MatchResults = () => {
       const response = await axios.get(
         "https://fantacy-app-backend.onrender.com/auth/all-match-results"
       );
-      setMatchResults(response.data.matchResults || []);
+  
+      // Sort match results by `createdAt` or `modifiedAt` in descending order
+      const sortedResults = response.data.matchResults?.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      ) || [];
+  
+      setMatchResults(sortedResults);
     } catch (error) {
       console.error("Error fetching match results:", error);
       setError("Failed to fetch match results.");
     }
   };
+  
 
   const fetchWinners = useCallback(async (matchId) => {
     setSelectedMatchId(matchId);

@@ -76,7 +76,7 @@
   .transaction-table td {
     padding: 12px 15px;
     border: 1px solid #ddd;
-    text-align: left;
+    text-align: center;
   }
   
   .transaction-table th {
@@ -100,3 +100,39 @@
     color: #666;
     padding: 20px;
   }
+  .status-complete {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status-failed {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .status-processing {
+    color: orange;
+    font-weight: bold;
+  }
+/* Status Colors */
+.status-complete {
+  color: green;
+  font-weight: bold;
+}
+
+.status-failed {
+  color: red;
+  font-weight: bold;
+}
+
+.status-processing {
+  color: orange;
+  font-weight: bold;
+}
+
+/* Align Failure Reason & Status Center */
+.status-cell,
+.center-text {
+  text-align: center;
+}
+  

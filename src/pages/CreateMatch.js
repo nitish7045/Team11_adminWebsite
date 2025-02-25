@@ -41,6 +41,7 @@ const AddMatchForm = () => {
     teamFlags: { team1: "", team2: "" },
     teamAbbreviations: { team1: "", team2: "" },
   });
+  const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 
@@ -62,6 +63,7 @@ const AddMatchForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
     const apiUrl =
       sport === "football"
         ? "https://fantacy-app-backend.onrender.com/auth/admin/football/match"
@@ -71,7 +73,6 @@ const AddMatchForm = () => {
       const response = await axios.post(apiUrl, matchData);
       setPopupMessage(response.data.message);
       setShowPopup(true);
-      // Reset form after successful submission
       setMatchData({
         seriesName: "",
         matchTitle: "",
@@ -86,6 +87,8 @@ const AddMatchForm = () => {
     } catch (error) {
       setPopupMessage("Error adding match: " + error.response?.data?.message);
       setShowPopup(true);
+    } finally {
+      setLoading(false); // Stop loading after API response
     }
   };
 
@@ -210,8 +213,8 @@ const AddMatchForm = () => {
           </div>
         </div>
 
-        <button type="submit" className="submit-button">
-          Add Match
+        <button type="submit" className="submit-button" disabled={loading}>
+          {loading ? <span className="loader"></span> : "Add Match"}
         </button>
       </form>
 
@@ -220,7 +223,7 @@ const AddMatchForm = () => {
         <div className="popup-overlay">
           <div className="popup">
             <p>{popupMessage}</p>
-            <button onClick={closePopup} className="close-button">
+            <button onClick={() => setShowPopup(false)} className="close-button">
               Close
             </button>
           </div>

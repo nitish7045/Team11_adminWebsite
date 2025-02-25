@@ -15,16 +15,21 @@ const UserManagement = () => {
         const response = await axios.get(
           "https://fantacy-app-backend.onrender.com/auth/admin/fetch-users"
         );
-        setUsers(response.data);
+        
+        // Sort by userId in descending order
+        const sortedUsers = response.data.sort((a, b) => b.userId - a.userId);
+        
+        setUsers(sortedUsers);
       } catch (error) {
         setError("Failed to fetch users");
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchUsers();
   }, []);
+  
 
   const handleBlockUser = async (userId) => {
     try {
@@ -99,7 +104,12 @@ const UserManagement = () => {
                 <td>{user.phone}</td>
                 <td>{user.isBlocked ? "Yes" : "No"}</td>
                 <td>{new Date(user.createdAt).toLocaleString()}</td>
-                <td>{new Date(user.modifiedAt).toLocaleString()}</td>
+                <td>
+  {user.updatedAt
+    ? new Date(user.updatedAt).toLocaleString()
+    : new Date(user.createdAt).toLocaleString()}
+</td>
+
                 <td>
                   {user.isBlocked ? (
                     <button className="unblock-button" onClick={() => handleUnblockUser(user.userId)}>Unblock</button>
