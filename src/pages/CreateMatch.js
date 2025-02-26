@@ -64,15 +64,40 @@ const AddMatchForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Start loading
+  
+    const sportType = sport === "football" ? "Football" : "Cricket"; // Identify the sport
     const apiUrl =
       sport === "football"
         ? "https://fantacy-app-backend.onrender.com/auth/admin/football/match"
         : "https://fantacy-app-backend.onrender.com/auth/admin/cricket/match";
-
+  
     try {
+      // 1️⃣ Send request to add match
       const response = await axios.post(apiUrl, matchData);
       setPopupMessage(response.data.message);
       setShowPopup(true);
+  
+      // 2️⃣ Format date & time
+      const formattedDate = new Date(matchData.matchDateTime).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+  
+      // 3️⃣ Prepare notification data
+      const notificationData = {
+        type: `New ${sportType} Match Added`,
+        message: `📢 A new ${sportType} match is scheduled:\n🏏 ${matchData.team1} vs ${matchData.team2}\n👉 Join Todays's ${matchData.seriesName} match Series Before ⏰ ${formattedDate}`,
+      };
+  
+      // 4️⃣ Send notification
+      await axios.post(
+        "https://fantacy-app-backend.onrender.com/auth/send-notification",
+        notificationData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+  
+      // 5️⃣ Reset form after successful submission
       setMatchData({
         seriesName: "",
         matchTitle: "",
@@ -85,13 +110,13 @@ const AddMatchForm = () => {
         teamAbbreviations: { team1: "", team2: "" },
       });
     } catch (error) {
-      setPopupMessage("Error adding match: " + error.response?.data?.message);
+      setPopupMessage("Error adding match: " + (error.response?.data?.message || error.message));
       setShowPopup(true);
     } finally {
       setLoading(false); // Stop loading after API response
     }
   };
-
+  
   const closePopup = () => {
     setShowPopup(false);
   };

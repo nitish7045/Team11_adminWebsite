@@ -6,10 +6,10 @@ import {
   faUsers,
   faExchangeAlt,
   faWallet,
-  faChartLine,
-  faCog,
+  // faChartLine,
+  // faCog,
   faLifeRing,
-  faSignOutAlt,faUserGroup,faPlusCircle ,faCalendarPlus ,faMedal,faTrophy,faListAlt,
+  faSignOutAlt,faUserGroup,faPlusCircle ,faCalendarPlus ,faMedal,faTrophy,faListAlt,faPaperPlane, faBell
 } from '@fortawesome/free-solid-svg-icons';
 import DashboardOverview from './DashboardOverview';
 import UserManagement from './UserManagement';
@@ -25,6 +25,8 @@ import UpcomingMatch from './UpcomingMatch';
 import PlayerPoints from './PlayerPoints';
 import LeaderboardAdmin from './LeaderboardAdmin';
 import MatchResult from './MatchResult';
+import NotificationHistory from './NotificationHistory';
+import NotificationSender from './NotificationSender';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -123,7 +125,7 @@ const AdminDashboard = () => {
             style={({ isActive }) => styles.menuItem(isActive, isSidebarExpanded)}
           >
             <FontAwesomeIcon icon={faMedal } style={styles.menuIcon} />
-            {isSidebarExpanded && <span style={styles.menuText}>Assign Player Points</span>}
+            {isSidebarExpanded && <span style={styles.menuText}>Declare Result</span>}
           </NavLink>
 
           {/* Wallet Management */}
@@ -152,6 +154,21 @@ const AdminDashboard = () => {
             <FontAwesomeIcon icon={faListAlt} style={styles.menuIcon} />
             {isSidebarExpanded && <span style={styles.menuText}>Match Result</span>}
           </NavLink>
+          <NavLink
+  to="/dashboard/notificationSender"
+  style={({ isActive }) => styles.menuItem(isActive, isSidebarExpanded)}
+>
+  <FontAwesomeIcon icon={faPaperPlane} style={styles.menuIcon} />
+  {isSidebarExpanded && <span style={styles.menuText}>Send Notification</span>}
+</NavLink>
+
+<NavLink
+  to="/dashboard/notificationHistory"
+  style={({ isActive }) => styles.menuItem(isActive, isSidebarExpanded)}
+>
+  <FontAwesomeIcon icon={faBell} style={styles.menuIcon} />
+  {isSidebarExpanded && <span style={styles.menuText}>Notification History</span>}
+</NavLink>
 
           {/* Support */}
           <NavLink
@@ -216,6 +233,9 @@ const AdminDashboard = () => {
             <Route path="/playerpoints" element={<PlayerPoints />} />
             <Route path="/leaderboardadmin" element={<LeaderboardAdmin />} />
             <Route path="/matchresult" element={<MatchResult />} />
+            <Route path="/notificationHistory" element={<NotificationHistory />} />
+            <Route path="/notificationSender" element={<NotificationSender />} />
+            {/* <Route path='/notificationHistory' element={<NotificationHistory>}/></NotificationHistory> */}
 
           </Routes>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import playerData from "./player_data.json";
 import "./PlayerPoints.css"; // Import the CSS file
+import axios from "axios";
 
 const PlayerPoints = () => {
   const [matches, setMatches] = useState({});
@@ -164,8 +165,28 @@ const PlayerPoints = () => {
 
       if (response.ok) {
         alert("Match results saved successfully!");
-        // Refetch saved match results to update the list
         await fetchSavedMatchResults();
+
+         // 2️⃣ Get current date & time in IST
+const formattedDate = new Date().toLocaleString("en-IN", {
+  timeZone: "Asia/Kolkata",
+  dateStyle: "medium",
+  timeStyle: "short",
+});
+
+// Send notification for match result declaration
+const notificationData = {
+  type: `Match Result Declared`,
+  message: `🎉 Match Result Declared! ⏰ ${formattedDate}\n🏆 ${match.teamAbbreviations.team1} vs ${match.teamAbbreviations.team2}\n📌 Series: ${match.seriesName} Series\n✅ Check the final points now!`,
+};
+
+
+        await axios.post(
+          "https://fantacy-app-backend.onrender.com/auth/send-notification",
+          notificationData,
+          { headers: { "Content-Type": "application/json" } }
+        );
+
       } else {
         alert(`Failed to save: ${data.message || "Unknown error"}`);
       }
@@ -191,8 +212,7 @@ const PlayerPoints = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(`${sportType.charAt(0).toUpperCase() + sportType.slice(1)} Match Remove successfully From upcoimg matches!`);
-        // Refetch updated match list if needed
+        alert(`${sportType.charAt(0).toUpperCase() + sportType.slice(1)} Match removed successfully from upcoming matches!`);
         await fetchSavedMatchResults();
       } else {
         alert(`Failed to delete: ${data.message || "Unknown error"}`);
@@ -204,9 +224,10 @@ const PlayerPoints = () => {
 };
 
 
+
 return (
     <div className="player-points-container">
-      <h2>Player Points</h2>
+      <h2>Declare Result Page</h2>
       {loading ? (
         <p className="loading">Loading matches...</p>
       ) : (
