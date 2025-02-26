@@ -111,16 +111,7 @@ const NotificationHistory = () => {
                 <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>{noti.type}</td>
                 <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>{noti.message}</td>
                 <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-  {new Date(noti.createdAt).toLocaleString("en-IN", {
-    timeZone: "Asia/Kolkata",
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  })}
+                {new Date(noti.createdAt).toLocaleString("en-IN", { timeZone: "UTC" })}
 </td>
 
                 <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>{noti.expoPushToken}</td>
